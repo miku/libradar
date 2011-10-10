@@ -1,18 +1,18 @@
 {
-	"name": "Library Radar (Alpha)",
-	"version": "1.0",
-	"icons": { "16": "icon16.png",
-	           "48": "icon48.png",
-	          "128": "icon128.png" },
-	"description": "Displays availability of a book (on its Amazon page) in the University Library Leipzig.",
-	"content_scripts": [
- 		{
-			"matches": ["http://www.amazon.com/*", "http://www.amazon.de/*"],
-			"css": ["style.css"],
-			"js": ["jquery.min.js", "script.js"]
-		}
-	],
-	"permissions": [
-		"http://ubdbs.ub.uni-leipzig.de/"
-	]
+    "name": "Library Radar (Alpha)",
+    "version": "1.0",
+    "icons": { "16": "icon16.png",
+               "48": "icon48.png",
+              "128": "icon128.png" },
+    "description": "Displays availability of a book (on its Amazon page) in the University Library Leipzig.",
+    "content_scripts": [
+        {
+            "matches": ["http://www.amazon.com/*", "http://www.amazon.de/*"],
+            "css": ["style.css"],
+            "js": ["jquery.min.js", "isbn.js", "isbn-groups.js", "script.js"]
+        }
+    ],
+    "permissions": [
+        "http://ubdbs.ub.uni-leipzig.de/"
+    ]
 }
