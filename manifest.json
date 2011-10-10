@@ -1,0 +1,15 @@
+{
+	"name": "libradar",
+	"version": "1.0",
+	"description": "The first extension that I made.",
+	"content_scripts": [
+ 		{
+			"matches": ["http://www.amazon.com/*", "http://www.amazon.de/*"],
+			"css": ["style.css"],
+			"js": ["jquery.min.js", "script.js"]
+		}
+	],
+	"permissions": [
+		"http://ubdbs.ub.uni-leipzig.de/"
+	]
+}
