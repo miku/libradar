@@ -1,7 +1,7 @@
 {
 	"name": "libradar",
 	"version": "1.0",
-	"description": "The first extension that I made.",
+	"description": "Displays availability of a book (on its Amazon page) in the University Library Leipzig.",
 	"content_scripts": [
  		{
 			"matches": ["http://www.amazon.com/*", "http://www.amazon.de/*"],

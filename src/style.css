@@ -1,0 +1,17 @@
+#libradar {
+	color: #767676;
+	background: #EFEFEF; 
+	padding: 5px;
+}
+
+#libradar a {
+	text-decoration: none;
+}
+
+#libradar a:hover {
+	text-decoration: underline;
+}
+
+#libradar-star {
+	color: green;
+}
