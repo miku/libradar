@@ -54,7 +54,7 @@ var isbns = [isbn13, isbn10_compact, isbn10];
 var libraries = {
 
     university_library: {
-        name: "University Library",
+        name: chrome.i18n.getMessage("University_Library"),
         base: "http://ubdbs.ub.uni-leipzig.de/libero/WebopacOpenURL.cls",
         q: "?ACTION=SEARCH&sid=LIBERO:UBL&searchby1=ISBN&TERM_1=",
         url: function(isbn) {
@@ -72,7 +72,7 @@ var libraries = {
     },
 
     national_library: {
-        name: "National Library",
+        name: chrome.i18n.getMessage("German_National_Library"),
         q: "https://portal.d-nb.de/opac.htm?method=simpleSearch&query=",
         url: function(isbn) {
             return this.q + isbn;

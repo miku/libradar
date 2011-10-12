@@ -1,0 +1,10 @@
+{
+    "University_Library": {
+        "message": "University Library",
+        "description": "Name of the library"
+    },
+    "German_National_Library": {
+        "message": "German National Library",
+        "description": "Name of the library"
+    }
+}
