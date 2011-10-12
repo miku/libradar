@@ -1,4 +1,7 @@
 {
+    "description": {
+        "message": "Checkt während man auf einer Amazon-Seite ist, ob das Buch in der UB oder DNB verfügbar ist."
+    },
     "University_Library": {
         "message": "Universitätsbibliothek Leipzig"
     },

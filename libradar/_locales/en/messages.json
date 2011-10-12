@@ -1,4 +1,8 @@
 {
+    "ext_description": {
+        "message": "Displays the availability of a book in the University Library Leipzig and the German National Library on the books Amazon page.",
+        "description": "What gets displayed in chrome://extensions/"
+    },
     "University_Library": {
         "message": "University Library",
         "description": "Name of the library"
