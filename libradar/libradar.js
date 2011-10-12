@@ -9,6 +9,8 @@
 //
 // On GitHub: [github.com/miku/libradar](https://github.com/miku/libradar)
 // 
+// Dumb screenshot: [imgur.com/a/DTv3m](http://imgur.com/a/DTv3m)
+// 
 // ----
 
 
