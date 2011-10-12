@@ -1,11 +1,16 @@
 #libradar {
 	color: #767676;
 	background: #EFEFEF; 
-	padding: 5px;
+	padding: 5px 10px 5px 10px;
 	font-size: 10px;
+	border-radius: 0px 0px 10px 10px;
 }
 
 #libradar a {
+	color: white;
+	background: green;
+	font-weight: bold;
+	padding: 1px 5px 1px 5px;
 	text-decoration: none;
 }
 

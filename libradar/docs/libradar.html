@@ -1,0 +1,111 @@
+<!DOCTYPE html>  <html> <head>   <title>libradar.js</title>   <meta http-equiv="content-type" content="text/html; charset=UTF-8">   <link rel="stylesheet" media="all" href="docco.css" /> </head> <body>   <div id="container">     <div id="background"></div>          <table cellpadding="0" cellspacing="0">       <thead>         <tr>           <th class="docs">             <h1>               libradar.js             </h1>           </th>           <th class="code">           </th>         </tr>       </thead>       <tbody>                               <tr id="section-1">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-1">&#182;</a>               </div>               <h1>Library Radar (Leipzig)</h1>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-2">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-2">&#182;</a>               </div>               <p>A small Google Chrome extension to check, whether a book is available
+at the local library, while browsing its Amazon page.</p>
+
+<p>Libraries can be added quite easily. Below are <a href="#section-7">some examples</a>,
+namely for the University Library Leipzig and the German National Library.</p>
+
+<hr />             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>A helper.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">trim</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^\s+|\s+$/g</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
+<span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Find the ISBN on the <a href="view-source:www.amazon.de/Programming-Scala-Scalability-Functional-Objects/dp/0596155956">Amazon page</a>. It is nested and is unfortunately
+nested like:</p>
+
+<pre><code>&lt;li&gt;&lt;b&gt;ISBN-10:&lt;/b&gt; 0596155956&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;ISBN-13:&lt;/b&gt; 978-0596155957&lt;/li&gt;
+</code></pre>
+
+<p>so this is a bit hacky - as every scrape.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">_extract_isbn_from_details_page</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;li:has(b:contains(&quot;</span> <span class="o">+</span> <span class="nx">text</span> <span class="o">+</span> <span class="s2">&quot;:))&quot;</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">html</span><span class="p">()</span>
+    <span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&quot;&lt;/b&gt;&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">.</span><span class="nx">trim</span><span class="p">();</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-5">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-5">&#182;</a>               </div>               <p>Get the ISBNs off Amazon's page.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">isbn13</span> <span class="o">=</span> <span class="nx">_extract_isbn_from_details_page</span><span class="p">(</span><span class="s2">&quot;ISBN-13&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">isbn10_compact</span> <span class="o">=</span> <span class="nx">_extract_isbn_from_details_page</span><span class="p">(</span><span class="s2">&quot;ISBN-10&quot;</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">isbn10</span> <span class="o">=</span> <span class="nx">ISBN</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">isbn10_compact</span><span class="p">).</span><span class="nx">asIsbn10</span><span class="p">(</span><span class="kc">true</span><span class="p">);</span></pre></div>             </td>           </tr>                               <tr id="section-6">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-6">&#182;</a>               </div>               <p>The ISBNs we need to lookup. Different libraries accept different
+ISBN formats or have only a subset of the ISBN actually associated with
+a library record. That's why we need to check them all.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">isbns</span> <span class="o">=</span> <span class="p">[</span><span class="nx">isbn13</span><span class="p">,</span> <span class="nx">isbn10_compact</span><span class="p">,</span> <span class="nx">isbn10</span><span class="p">];</span></pre></div>             </td>           </tr>                               <tr id="section-7">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-7">&#182;</a>               </div>               <p>Define some libraries to check.</p>
+
+<p>Each library should have</p>             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-8">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-8">&#182;</a>               </div>               <ul>
+<li>a <code>name</code> - this will be user-facing,</li>
+<li>a <code>url</code> function, which takes an ISBN as an argument and returns the
+ URL to the search results page,</li>
+<li>an <code>extractor</code> function, which knows how to extract the fact
+ "This book is available" from the search results page, returned by
+ the <code>url</code> function and</li>
+<li>a unique target name (might be anything).</li>
+</ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">libraries</span> <span class="o">=</span> <span class="p">{</span>
+
+    <span class="nx">university_library</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;University Library&quot;</span><span class="p">,</span>
+        <span class="nx">base</span><span class="o">:</span> <span class="s2">&quot;http://ubdbs.ub.uni-leipzig.de/libero/WebopacOpenURL.cls&quot;</span><span class="p">,</span>
+        <span class="nx">q</span><span class="o">:</span> <span class="s2">&quot;?ACTION=SEARCH&amp;sid=LIBERO:UBL&amp;searchby1=ISBN&amp;TERM_1=&quot;</span><span class="p">,</span>
+        <span class="nx">url</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">isbn</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">base</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">q</span> <span class="o">+</span> <span class="nx">isbn</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">extractor</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="kd">var</span> <span class="nx">_result</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.SubHeaderTop&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span>
+                <span class="p">.</span><span class="nx">text</span><span class="p">()</span>
+                <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/\n/g</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/.*Ihre Suche nach ISBN= [-0-9]{10,15} ergibt/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/ Einträge Suchergebnisseite.*/</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">).</span><span class="nx">trim</span><span class="p">();</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">Boolean</span><span class="p">(</span><span class="nx">_result</span><span class="p">)</span> <span class="o">==</span> <span class="kc">false</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="nx">_result</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">target</span><span class="o">:</span> <span class="s2">&quot;libradar-ubl&quot;</span>
+    <span class="p">},</span>
+
+    <span class="nx">national_library</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;National Library&quot;</span><span class="p">,</span>
+        <span class="nx">q</span><span class="o">:</span> <span class="s2">&quot;https://portal.d-nb.de/opac.htm?method=simpleSearch&amp;query=&quot;</span><span class="p">,</span>
+        <span class="nx">url</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">isbn</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">q</span> <span class="o">+</span> <span class="nx">isbn</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">extractor</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;.amount&quot;</span><span class="p">,</span> <span class="nx">data</span><span class="p">).</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">0</span> <span class="o">:</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="nx">target</span><span class="o">:</span> <span class="s2">&quot;libradar-dnb&quot;</span>
+    <span class="p">},</span>
+
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>A poor man's progress bar.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">_dot_plus</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &amp;#x25FC; &quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">_dot_minus</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()</span>
+        <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s2">&quot; \u25FC &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">));</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-10">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-10">&#182;</a>               </div>               <p>Initialize libradar, add a div on top of the page and prepare the
+library status placeholders.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">_init</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">).</span><span class="nx">prepend</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;&lt;div id=&#39;libradar&#39;&gt;&lt;/div&gt;&quot;</span><span class="p">)</span> <span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">s</span> <span class="o">=</span> <span class="s2">&quot;&lt;span id=&#39;libradar-status&#39;&gt;Library Radar &lt;strong&gt;Leipzig&lt;/strong&gt;&lt;/span&gt;&quot;</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">libraries</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">s</span> <span class="o">+=</span> <span class="s2">&quot;&amp;nbsp;|&amp;nbsp;&lt;span id=&#39;&quot;</span> <span class="o">+</span> <span class="nx">libraries</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">target</span> <span class="o">+</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">+</span>
+            <span class="s2">&quot;&lt;strike&gt;&quot;</span> <span class="o">+</span> <span class="nx">libraries</span><span class="p">[</span><span class="nx">key</span><span class="p">].</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&lt;/strike&gt;&lt;/span&gt;&quot;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">s</span><span class="p">);</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-11">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-11">&#182;</a>               </div>               <p>If an ISBN is available in a library, we change the placeholder to
+an actual link to the libraries page; otherwise we leave the placeholder,
+indicating, that no match has been found.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">_check_availability</span><span class="p">(</span><span class="nx">isbn</span><span class="p">,</span> <span class="nx">library</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">_result</span><span class="p">;</span>
+    <span class="nx">_dot_plus</span><span class="p">();</span>
+    <span class="nx">$</span><span class="p">.</span><span class="nx">when</span><span class="p">(</span> <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">library</span><span class="p">.</span><span class="nx">url</span><span class="p">(</span><span class="nx">isbn</span><span class="p">))</span> <span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">_result</span> <span class="o">=</span> <span class="nx">library</span><span class="p">.</span><span class="nx">extractor</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">_result</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#&quot;</span> <span class="o">+</span> <span class="nx">library</span><span class="p">.</span><span class="nx">target</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span>
+                <span class="s2">&quot;&lt;a href=&#39;&quot;</span> <span class="o">+</span> <span class="nx">library</span><span class="p">.</span><span class="nx">url</span><span class="p">(</span><span class="nx">isbn</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;&#39;&gt;&quot;</span> <span class="o">+</span> <span class="nx">library</span><span class="p">.</span><span class="nx">name</span> <span class="o">+</span> <span class="s2">&quot;&lt;/a&gt;&quot;</span><span class="p">);</span>
+        <span class="p">}})</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nx">_dot_minus</span><span class="p">();</span>
+    <span class="p">});</span>
+<span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-12">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-12">&#182;</a>               </div>               <p>Loop through all defined libraries and ISBNs.
+This could be optimized to stop, after a match was found. For now,
+we just check each ISBN.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">_main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">_init</span><span class="p">();</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="nx">libraries</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="nx">isbns</span><span class="p">.</span><span class="nx">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span><span class="o">--</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nx">_check_availability</span><span class="p">(</span><span class="nx">isbns</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span> <span class="nx">libraries</span><span class="p">[</span><span class="nx">key</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">_main</span><span class="p">();</span>
+
+</pre></div>             </td>           </tr>                </tbody>     </table>   </div> </body> </html> 

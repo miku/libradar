@@ -1,6 +1,6 @@
 {
     "name": "Library Radar (Alpha)",
-    "version": "1.0",
+    "version": "1.0.0",
     "icons": { "16": "icon16.png",
                "48": "icon48.png",
               "128": "icon128.png" },
@@ -9,10 +9,17 @@
         {
             "matches": ["http://www.amazon.com/*", "http://www.amazon.de/*"],
             "css": ["style.css"],
-            "js": ["jquery.min.js", "isbn.js", "isbn-groups.js", "script.js"]
+            "js": [
+				"jquery.min.js", 
+				"isbn.js", 
+				"isbn-groups.js", 
+				"libradar.js"
+			]
         }
     ],
     "permissions": [
-        "http://ubdbs.ub.uni-leipzig.de/"
+        "http://ubdbs.ub.uni-leipzig.de/",
+		"https://portal.d-nb.de/",
+		"https://webopac.stadtbibliothek-leipzig.de/"
     ]
 }
