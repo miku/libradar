@@ -4,6 +4,8 @@ at the local library, while browsing its Amazon page.</p>
 <p>Libraries can be added quite easily. Below are <a href="#section-7">some examples</a>,
 namely for the University Library Leipzig and the German National Library.</p>
 
+<p>On GitHub: <a href="https://github.com/miku/libradar">github.com/miku/libradar</a></p>
+
 <hr />             </td>             <td class="code">               <div class="highlight"><pre></pre></div>             </td>           </tr>                               <tr id="section-3">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-3">&#182;</a>               </div>               <p>A helper.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="nb">String</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">trim</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
     <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/^\s+|\s+$/g</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">);</span>
 <span class="p">};</span></pre></div>             </td>           </tr>                               <tr id="section-4">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-4">&#182;</a>               </div>               <p>Find the ISBN on the <a href="view-source:www.amazon.de/Programming-Scala-Scalability-Functional-Objects/dp/0596155956">Amazon page</a>. It is nested and is unfortunately
@@ -35,7 +37,7 @@ a library record. That's why we need to check them all.</p>             </td>   
 </ul>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">var</span> <span class="nx">libraries</span> <span class="o">=</span> <span class="p">{</span>
 
     <span class="nx">university_library</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;University Library&quot;</span><span class="p">,</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="nx">chrome</span><span class="p">.</span><span class="nx">i18n</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">(</span><span class="s2">&quot;University_Library&quot;</span><span class="p">),</span>
         <span class="nx">base</span><span class="o">:</span> <span class="s2">&quot;http://ubdbs.ub.uni-leipzig.de/libero/WebopacOpenURL.cls&quot;</span><span class="p">,</span>
         <span class="nx">q</span><span class="o">:</span> <span class="s2">&quot;?ACTION=SEARCH&amp;sid=LIBERO:UBL&amp;searchby1=ISBN&amp;TERM_1=&quot;</span><span class="p">,</span>
         <span class="nx">url</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">isbn</span><span class="p">)</span> <span class="p">{</span>
@@ -53,7 +55,7 @@ a library record. That's why we need to check them all.</p>             </td>   
     <span class="p">},</span>
 
     <span class="nx">national_library</span><span class="o">:</span> <span class="p">{</span>
-        <span class="nx">name</span><span class="o">:</span> <span class="s2">&quot;National Library&quot;</span><span class="p">,</span>
+        <span class="nx">name</span><span class="o">:</span> <span class="nx">chrome</span><span class="p">.</span><span class="nx">i18n</span><span class="p">.</span><span class="nx">getMessage</span><span class="p">(</span><span class="s2">&quot;German_National_Library&quot;</span><span class="p">),</span>
         <span class="nx">q</span><span class="o">:</span> <span class="s2">&quot;https://portal.d-nb.de/opac.htm?method=simpleSearch&amp;query=&quot;</span><span class="p">,</span>
         <span class="nx">url</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">isbn</span><span class="p">)</span> <span class="p">{</span>
             <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">q</span> <span class="o">+</span> <span class="nx">isbn</span><span class="p">;</span>
@@ -65,7 +67,7 @@ a library record. That's why we need to check them all.</p>             </td>   
     <span class="p">},</span>
 
 <span class="p">}</span></pre></div>             </td>           </tr>                               <tr id="section-9">             <td class="docs">               <div class="pilwrap">                 <a class="pilcrow" href="#section-9">&#182;</a>               </div>               <p>A poor man's progress bar.</p>             </td>             <td class="code">               <div class="highlight"><pre><span class="kd">function</span> <span class="nx">_dot_plus</span><span class="p">()</span> <span class="p">{</span>
-    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span> <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &amp;#x25FC; &quot;</span><span class="p">);</span>
+    <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#libradar-status&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot; &amp;#x25FC; &quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kd">function</span> <span class="nx">_dot_minus</span><span class="p">()</span> <span class="p">{</span>

@@ -7,6 +7,8 @@
 // Libraries can be added quite easily. Below are [some examples](#section-7),
 // namely for the University Library Leipzig and the German National Library.
 //
+// On GitHub: [github.com/miku/libradar](https://github.com/miku/libradar)
+// 
 // ----
 
 
