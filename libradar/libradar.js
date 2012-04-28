@@ -28,10 +28,14 @@ String.prototype.trim = function() {
 //
 // so this is a bit hacky - as every scrape.
 function _extract_isbn_from_details_page(text) {
-    return $("li:has(b:contains(" + text + ":))")
-    .html()
-    .split("</b>")[1]
-    .trim();
+    try {
+        return $("li:has(b:contains(" + text + ":))")
+        .html()
+        .split("</b>")[1]
+        .trim();        
+    } catch (err) {
+        return "None";
+    }
 }
 
 // Get the ISBNs off Amazon's page.
@@ -51,6 +55,7 @@ var isbns = [isbn13, isbn10_compact, isbn10];
 // * a `name` - this will be user-facing,
 // * a `url` function, which takes an ISBN as an argument and returns the
 //      URL to the search results page,
+// * an `exit_url` - the link which will be shown to the user
 // * an `extractor` function, which knows how to extract the fact
 //      "This book is available" from the search results page, returned by
 //      the `url` function and
@@ -64,6 +69,9 @@ var libraries = {
         url: function(isbn) {
             return this.base + this.q + isbn;
         },
+        exit_url: function(isbn) {
+            return this.base + this.q + isbn;
+        },
         extractor: function(data) {
             var _result = $(".SubHeaderTop", data)
                 .text()
@@ -75,17 +83,25 @@ var libraries = {
         target: "libradar-ubl"
     },
 
-    // national_library: {
-    //     name: chrome.i18n.getMessage("German_National_Library"),
-    //     q: "https://portal.d-nb.de/opac.htm?method=simpleSearch&query=",
-    //     url: function(isbn) {
-    //         return this.q + isbn;
-    //     },
-    //     extractor: function(data) {
-    //         return ($(".amount", data).length == 0) ? 0 : 1;
-    //     },
-    //     target: "libradar-dnb"
-    // },
+    university_library_katalog: {
+        name: "UBL Catalog", /* chrome.i18n.getMessage("University_Library_Katalog"), */
+        // via RSS
+        search_base: "https://katalog.ub.uni-leipzig.de/Search/Results?type=ISN&view=rss&lookfor=",
+        exit_base: "https://katalog.ub.uni-leipzig.de/Search/Results?type=ISN&lookfor=",
+        url: function(isbn) {
+            return this.search_base + isbn;
+        },
+        exit_url: function(isbn) {
+            return this.exit_base + isbn;
+        },
+        extractor: function(data) {
+            console.log(data);
+            return Boolean($(data).find("item").length);
+        },
+        target: "libradar-ubl-katalog"
+    }
+
+    // add more libraries here ...
 
 }
 
@@ -122,7 +138,7 @@ function _check_availability(isbn, library) {
         _result = library.extractor(data);
         if (_result > 0) {
             $("#" + library.target).html(
-                "<a href='" + library.url(isbn) + "'>" + library.name + "</a>");
+                "<a href='" + library.exit_url(isbn) + "'>" + library.name + "</a>");
         }})
     .then(function() {
         _dot_minus();

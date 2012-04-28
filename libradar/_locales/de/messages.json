@@ -5,6 +5,9 @@
     "University_Library": {
         "message": "Universitätsbibliothek Leipzig"
     },
+    "UBL_Catalog": {
+    	"message": "Universitätsbibliothek Leipzig (Katalog)"
+	},
     "German_National_Library": {
         "message": "Deutsche Nationalbibliothek"
     }

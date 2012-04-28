@@ -1,6 +1,6 @@
 {
     "name": "Library Radar Leipzig",
-    "version": "1.0.1",
+    "version": "2.0",
     "icons": { "16": "icon16.png",
                "48": "icon48.png",
               "128": "icon128.png" },
@@ -21,6 +21,7 @@
     "permissions": [
         "http://ubdbs.ub.uni-leipzig.de/",
         "https://portal.d-nb.de/",
-        "https://webopac.stadtbibliothek-leipzig.de/"
+        "https://webopac.stadtbibliothek-leipzig.de/",
+        "https://katalog.ub.uni-leipzig.de/"
     ]
 }

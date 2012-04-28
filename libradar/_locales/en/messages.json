@@ -10,5 +10,9 @@
     "German_National_Library": {
         "message": "German National Library",
         "description": "Name of the library"
+    },
+    "UBL_Catalog": {
+        "message": "UBL Catalog",
+        "description": "Name of the library"
     }
 }
