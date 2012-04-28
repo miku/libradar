@@ -75,17 +75,17 @@ var libraries = {
         target: "libradar-ubl"
     },
 
-    national_library: {
-        name: chrome.i18n.getMessage("German_National_Library"),
-        q: "https://portal.d-nb.de/opac.htm?method=simpleSearch&query=",
-        url: function(isbn) {
-            return this.q + isbn;
-        },
-        extractor: function(data) {
-            return ($(".amount", data).length == 0) ? 0 : 1;
-        },
-        target: "libradar-dnb"
-    },
+    // national_library: {
+    //     name: chrome.i18n.getMessage("German_National_Library"),
+    //     q: "https://portal.d-nb.de/opac.htm?method=simpleSearch&query=",
+    //     url: function(isbn) {
+    //         return this.q + isbn;
+    //     },
+    //     extractor: function(data) {
+    //         return ($(".amount", data).length == 0) ? 0 : 1;
+    //     },
+    //     target: "libradar-dnb"
+    // },
 
 }
 
